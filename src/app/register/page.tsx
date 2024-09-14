@@ -18,7 +18,13 @@ const schema = z.object({
   email: z
     .string()
     .email({ message: "有効なメールアドレスを入力してください" }),
-  password: z.string().min(8, { message: "パスワードは8文字以上必要です" }),
+  password: z
+    .string()
+    .min(8, { message: "パスワードは8文字以上必要です" })
+    .regex(
+      /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
+      "パスワードは半角英数字混合で入力してください"
+    ),
 });
 
 export default function RegisterPage() {
