@@ -62,7 +62,7 @@ export default function RegisterPage() {
             <p className="text-red-500">{errors.email.message}</p>
           )}
         </div>
-        <div className="mb-5">
+        <div className="mb-10">
           <label>
             <span>パスワード</span>
             <input
