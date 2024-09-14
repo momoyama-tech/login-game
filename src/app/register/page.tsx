@@ -21,7 +21,7 @@ const schema = z.object({
   password: z.string().min(8, { message: "パスワードは8文字以上必要です" }),
 });
 
-export default function Home() {
+export default function RegisterPage() {
   const {
     register,
     handleSubmit,

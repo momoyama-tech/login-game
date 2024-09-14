@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function Home() {
+export default function TopPage() {
   return (
     <main>
       <h1 className="text-4xl mt-10 mb-20 text-center">Login Game</h1>
