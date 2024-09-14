@@ -1,8 +1,14 @@
+//registerページ　新規ログインするときにはこちらから情報を入力します。
 "use client";
 
-import { emailAtom, passwordAtom } from "@/atoms/profile";
+import {
+  userNameAtom,
+  emailAtom,
+  passwordAtom,
+  dateOfBirthAtom,
+  addressAtom,
+} from "@/atoms/profile";
 import { useAtom } from "jotai";
-import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,22 +16,37 @@ import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 type FormData = {
+  userName: string;
   email: string;
   password: string;
+  passwordConfirm: string;
+  dateOfBirth: string;
+  address: string;
 };
 
-const schema = z.object({
-  email: z
-    .string()
-    .email({ message: "有効なメールアドレスを入力してください" }),
-  password: z
-    .string()
-    .min(8, { message: "パスワードは8文字以上必要です" })
-    .regex(
-      /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
-      "パスワードは半角英数字混合で入力してください"
-    ),
-});
+const schema = z
+  .object({
+    userName: z.string().min(1, { message: "ユーザー名は必須です" }),
+    email: z
+      .string()
+      .email({ message: "有効なメールアドレスを入力してください" }),
+    password: z
+      .string()
+      .min(8, { message: "パスワードは8文字以上必要です" })
+      .regex(
+        /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
+        "パスワードは半角英数字混合で入力してください"
+      ),
+    passwordConfirm: z.string(),
+    dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+      message: "正しい日付形式で入力してください（YYYY-MM-DD）",
+    }),
+    address: z.string().min(1, { message: "住所は必須です" }),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: "パスワードが一致しません",
+    path: ["passwordConfirm"],
+  });
 
 export default function RegisterPage() {
   const {
@@ -37,67 +58,156 @@ export default function RegisterPage() {
   });
   const router = useRouter();
 
+  const [, setUserName] = useAtom(userNameAtom);
   const [, setEmail] = useAtom(emailAtom);
   const [, setPassword] = useAtom(passwordAtom);
+  const [, setDateOfBirth] = useAtom(dateOfBirthAtom);
+  const [, setAddress] = useAtom(addressAtom);
 
   const onSubmit = useCallback(
     (data: FormData) => {
+      setUserName(data.userName);
       setEmail(data.email);
       setPassword(data.password);
-      alert(`メールアドレス: ${data.email} / パスワード: ${data.password}`);
-
-      router.push("/");
+      setDateOfBirth(data.dateOfBirth);
+      setAddress(data.address);
+      alert("登録が完了しました");
+      router.push("/login");
     },
-    [router, setEmail, setPassword]
+    [router, setUserName, setEmail, setPassword, setDateOfBirth, setAddress]
   );
 
   return (
-    <main>
-      <h1 className="text-4xl mt-10 mb-20 text-center">新規登録</h1>
-      <form className="mb-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-5">
-          <label>
-            <span>メールアドレス</span>
+    <div className="min-h-screen bg-white flex flex-col justify-center items-center">
+      <div className="w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
+          Sign in
+        </h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label
+              htmlFor="userName"
+              className="block text-sm font-medium text-gray-700"
+            >
+              user name
+            </label>
             <input
               type="text"
-              className="w-full h-10 border border-gray-600 rounded bg-white text-black px-2"
-              {...register("email")}
+              id="userName"
+              {...register("userName")}
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
             />
-          </label>
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
-          )}
-        </div>
-        <div className="mb-10">
-          <label>
-            <span>パスワード</span>
+            {errors.userName && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.userName.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              mail address
+            </label>
+            <input
+              type="email"
+              id="email"
+              {...register("email")}
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
             <input
               type="password"
-              className="w-full h-10 border border-gray-600 rounded bg-white text-black px-2"
+              id="password"
               {...register("password")}
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
             />
-          </label>
-          {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
-          )}
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            ログイン
-          </button>
-        </div>
-      </form>
-      <div className="text-center">
-        <Link
-          href="/"
-          className="text-blue-600 visited:text-purple-600 underline"
-        >
-          トップへ戻る
-        </Link>
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="passwordConfirm"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password again
+            </label>
+            <input
+              type="password"
+              id="passwordConfirm"
+              {...register("passwordConfirm")}
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+            />
+            {errors.passwordConfirm && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.passwordConfirm.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="dateOfBirth"
+              className="block text-sm font-medium text-gray-700"
+            >
+              date of birth
+            </label>
+            <input
+              type="date"
+              id="dateOfBirth"
+              {...register("dateOfBirth")}
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+            />
+            {errors.dateOfBirth && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.dateOfBirth.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-gray-700"
+            >
+              address
+            </label>
+            <input
+              type="text"
+              id="address"
+              {...register("address")}
+              className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
+            />
+            {errors.address && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.address.message}
+              </p>
+            )}
+          </div>
+          <div className="pt-4">
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              log in
+            </button>
+          </div>
+        </form>
       </div>
-    </main>
+    </div>
   );
 }

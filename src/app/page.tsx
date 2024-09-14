@@ -12,6 +12,12 @@ export default function TopPage() {
           ログイン
         </Link>
         <Link
+          href="/test"
+          className="text-blue-600 visited:text-purple-600 underline"
+        >
+          test1ログイン
+        </Link>
+        <Link
           href="/register"
           className="text-blue-600 visited:text-purple-600 underline"
         >
