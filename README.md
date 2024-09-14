@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Login Game（仮）
 
-## Getting Started
+## 概要
 
-First, run the development server:
+ログイン機能を複雑化することによって、ログインするまでの時間を競うゲーム
+
+## セットアップ
+
+### Nodeのインストール
+
+[Node.js公式サイト](https://nodejs.org/en) を参考にインストールする
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# installs fnm (Fast Node Manager)
+winget install Schniz.fnm
+
+# configure fnm environment
+fnm env --use-on-cd | Out-String | Invoke-Expression
+
+# download and install Node.js
+fnm use --install-if-missing 20
+
+# verifies the right Node.js version is in the environment
+node -v # should print `v20.17.0`
+
+# verifies the right npm version is in the environment
+npm -v # should print `10.8.2`
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### プロジェクトの起動
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# プロジェクトをローカルにクローン
+git clone https://github.com/momoyama-tech/login-game.git
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# リポジトリへ移動
+cd login-game
 
-## Learn More
+# パッケージのインストール
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# プロジェクトの起動
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## デザイン
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Figma](https://www.figma.com/design/KVq1nP0XZbYc63VxxBkIsm/%E3%83%AD%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%B2%E3%83%BC%E3%83%A0?t=YTiKV2jlIxMlXWeX-1)
