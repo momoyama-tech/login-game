@@ -32,7 +32,7 @@ const schema = z
       .email({ message: "有効なメールアドレスを入力してください" }),
     password: z
       .string()
-      .min(8, { message: "パスワードは8文字以上必要です" })
+      .min(8, { message: "パスワードは8文字までです" })
       .regex(
         /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
         "パスワードは半角英数字混合で入力してください"
@@ -137,6 +137,7 @@ export default function RegisterPage() {
               type="password"
               id="password"
               {...register("password")}
+              maxLength={8}
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
             />
             {errors.password && (
@@ -154,8 +155,9 @@ export default function RegisterPage() {
             </label>
             <input
               type="password"
-              id="passwordConfirm"
-              {...register("passwordConfirm")}
+              id="password"
+              {...register("password")}
+              maxLength={8}
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
             />
             {errors.passwordConfirm && (
