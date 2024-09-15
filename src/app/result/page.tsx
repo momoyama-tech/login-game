@@ -16,17 +16,21 @@ export default function ResultPage() {
   }, [startTime]);
 
   return (
-    <main className="min-h-screen bg-white flex flex-col justify-center items-center">
-      <h1 className="text-4xl mb-10 text-center text-gray-800">リザルト</h1>
-      <p className="text-2xl mb-8 text-gray-700">
-        ログイン所要時間: {(elapsedTime / 1000).toFixed(2)} 秒
-      </p>
-      <Link
-        href="/"
-        className="text-blue-600 hover:text-blue-800 underline text-lg"
-      >
-        ログアウトする
-      </Link>
-    </main>
+    <div className="min-h-screen bg-white flex flex-col justify-between items-center p-6">
+      <div className="flex flex-col flex-grow items-center justify-center space-y-6">
+        <h1 className="text-6xl font-bold text-gray-800">
+          Welcome
+        </h1>
+        <h2 className="text-3xl text-gray-700">
+          Time: {(elapsedTime / 1000).toFixed(2)} 秒
+        </h2>
+      </div>
+      
+      <div className="mb-6 w-full max-w-md">
+        <Link href="/" className="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center">
+          Logout
+        </Link>
+      </div>
+    </div>
   );
 }
