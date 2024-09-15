@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAtom } from "jotai";
@@ -11,6 +11,7 @@ import {
   dateOfBirthAtom,
   addressAtom,
 } from "@/atoms/profile";
+import { timerAtom } from "@/atoms/profile"; // New atom for timer
 
 export default function LoginPage() {
   const router = useRouter();
@@ -32,6 +33,12 @@ export default function LoginPage() {
   const [currentScreen, setCurrentScreen] = useState("login"); // "login", "captcha", or "passwordDate"
   const [captchaInput, setCaptchaInput] = useState("");
   const [passwordCreationDate, setPasswordCreationDate] = useState("");
+  const [, setTimer] = useAtom(timerAtom);
+
+  useEffect(() => {
+    const startTime = Date.now();
+    setTimer(startTime);
+  }, [setTimer]);
 
   // Simplified CAPTCHA for demonstration
   const captchaText = "ABC123";

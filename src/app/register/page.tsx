@@ -1,4 +1,4 @@
-//registerページ　新規ログインするときにはこちらから情報を入力します。
+//register
 "use client";
 
 import {
