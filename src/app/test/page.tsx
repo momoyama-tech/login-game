@@ -249,14 +249,14 @@ export default function LoginPage() {
 
   const renderMathProblem = () => (
     <>
-      <h2 className="text-xl font-bold mb-4 text-center">Verify Identity</h2>
-      <p className="text-center mb-4">
+      <h2 className="text-xl font-bold text-gray-700 mb-4 text-center">Verify Identity</h2>
+      <p className="text-center text-gray-700 mb-4">
         Please solve this math problem to continue:
       </p>
-      <p className="text-center text-2xl font-bold mb-4">
+      <p className="text-center text-2xl font-bold text-gray-700 mb-4">
         {mathProblem.question} = ?
       </p>
-      <form onSubmit={handleMathProblemSubmit} className="space-y-4">
+      <form onSubmit={handleMathProblemSubmit} className="space-y-4 text-gray-700">
         <input
           type="number"
           value={mathInput}
