@@ -1,5 +1,7 @@
 "use client";
 
+import { timerAtom } from "@/atoms/profile";
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -92,6 +94,13 @@ export default function VoicePage() {
       }
     };
   }, [router, stream]);
+
+  const [, setTimer] = useAtom(timerAtom);
+
+  useEffect(() => {
+    const startTime = Date.now();
+    setTimer(startTime);
+  }, [setTimer]);
 
   return (
     <main>
