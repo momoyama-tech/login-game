@@ -1,4 +1,3 @@
-//register
 "use client";
 
 import {
@@ -32,9 +31,10 @@ const schema = z
       .email({ message: "有効なメールアドレスを入力してください" }),
     password: z
       .string()
-      .min(8, { message: "パスワードは8文字までです" })
+      .min(8, { message: "パスワードは8文字です" })
+      .max(8, { message: "パスワードは8文字です" })
       .regex(
-        /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
+        /^(?=.*[a-z])(?=.*\d)[a-z\d]{8}$/i,
         "パスワードは半角英数字混合で入力してください"
       ),
     passwordConfirm: z.string(),
@@ -85,7 +85,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-white flex flex-col justify-center items-center">
       <div className="w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
-          Sign in
+          Sign up
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -93,7 +93,7 @@ export default function RegisterPage() {
               htmlFor="userName"
               className="block text-sm font-medium text-gray-700"
             >
-              user name
+              User name
             </label>
             <input
               type="text"
@@ -112,7 +112,7 @@ export default function RegisterPage() {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              mail address
+              Email address
             </label>
             <input
               type="email"
@@ -131,13 +131,13 @@ export default function RegisterPage() {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              Password
+              Password (8 characters)
             </label>
             <input
               type="password"
               id="password"
-              {...register("password")}
               maxLength={8}
+              {...register("password")}
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
             />
             {errors.password && (
@@ -151,13 +151,13 @@ export default function RegisterPage() {
               htmlFor="passwordConfirm"
               className="block text-sm font-medium text-gray-700"
             >
-              Password again
+              Confirm Password
             </label>
             <input
               type="password"
-              id="password"
-              {...register("password")}
+              id="passwordConfirm"
               maxLength={8}
+              {...register("passwordConfirm")}
               className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-600"
             />
             {errors.passwordConfirm && (
@@ -171,7 +171,7 @@ export default function RegisterPage() {
               htmlFor="dateOfBirth"
               className="block text-sm font-medium text-gray-700"
             >
-              date of birth
+              Date of birth
             </label>
             <input
               type="date"
@@ -190,7 +190,7 @@ export default function RegisterPage() {
               htmlFor="address"
               className="block text-sm font-medium text-gray-700"
             >
-              address
+              Address
             </label>
             <input
               type="text"
