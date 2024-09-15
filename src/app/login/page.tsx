@@ -10,8 +10,8 @@ import {
   passwordAtom,
   dateOfBirthAtom,
   addressAtom,
+  timerAtom,
 } from "@/atoms/profile";
-import { timerAtom } from "@/atoms/profile"; // New atom for timer
 
 export default function LoginPage() {
   const router = useRouter();
@@ -50,6 +50,7 @@ export default function LoginPage() {
       setError("Please confirm you're not a robot.");
       return;
     }
+    setError("");
     setCurrentScreen("captcha");
   };
 
@@ -59,6 +60,7 @@ export default function LoginPage() {
       setError("Invalid CAPTCHA. Please try again.");
       return;
     }
+    setError("");
     setCurrentScreen("passwordDate");
   };
 
@@ -207,12 +209,6 @@ export default function LoginPage() {
           log in
         </button>
       </form>
-      <Link
-        href="/forgot-password"
-        className="text-xs text-blue-500 hover:underline mt-2 block"
-      >
-        If you forgot your password
-      </Link>
     </>
   );
 

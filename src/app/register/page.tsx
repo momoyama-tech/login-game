@@ -71,7 +71,11 @@ export default function RegisterPage() {
       setPassword(data.password);
       setDateOfBirth(data.dateOfBirth);
       setAddress(data.address);
-      alert("登録が完了しました");
+
+      // Get current date as password creation date
+      const passwordCreationDate = new Date().toISOString().split("T")[0];
+
+      alert(`登録が完了しました。パスワード作成日: ${passwordCreationDate}`);
       router.push("/login");
     },
     [router, setUserName, setEmail, setPassword, setDateOfBirth, setAddress]
@@ -201,9 +205,9 @@ export default function RegisterPage() {
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              log in
+              Create new account
             </button>
           </div>
         </form>
